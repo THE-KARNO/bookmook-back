@@ -5,6 +5,7 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  Put,
 } from '@nestjs/common';
 
 import { BookService } from './book.service.js';
@@ -28,5 +29,13 @@ export class BookController {
   @Post()
   create(@Body() createBookDto: CreateBookDto): Promise<void> {
     return this.bookService.create(createBookDto);
+  }
+
+  @Put('/:id')
+  update(
+    @Body() createBookDto: CreateBookDto,
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<void> {
+    return this.bookService.update(createBookDto, id);
   }
 }

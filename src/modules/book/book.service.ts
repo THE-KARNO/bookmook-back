@@ -43,4 +43,25 @@ export class BookService {
     await this.bookRepository.save(createBook);
     return;
   }
+
+  async update(createBookDto: CreateBookDto, id: string): Promise<void> {
+    const { name, author, translator, publisher, price, category, ISBN } =
+      createBookDto;
+
+    const newBookInformation = await this.bookRepository.update(id, {
+      name,
+      author,
+      translator,
+      publisher,
+      price,
+      category,
+      ISBN,
+    });
+
+    if (newBookInformation.affected === 0) {
+      throw new NotFoundException();
+    }
+
+    return;
+  }
 }

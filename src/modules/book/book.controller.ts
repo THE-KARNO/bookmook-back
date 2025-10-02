@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseUUIDPipe,
@@ -37,5 +38,10 @@ export class BookController {
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<void> {
     return this.bookService.update(createBookDto, id);
+  }
+
+  @Delete('/:id')
+  remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
+    return this.bookService.remove(id);
   }
 }

@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
 import dotenv from 'dotenv';
 
-import { Book } from 'src/modules/book/book.entity.js';
+import { Book } from '../modules/book/book.entity.js';
 
 dotenv.config();
 

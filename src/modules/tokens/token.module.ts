@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 
-import { TokensService } from './token.service.js';
+import { TokenService } from './token.service.js';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [JwtModule.register({})],
-  providers: [TokensService],
-  exports: [TokensService],
+  providers: [TokenService],
+  exports: [TokenService],
 })
 export class TokensModule {}

@@ -7,7 +7,7 @@ import { User } from '../auth/user.entity.js';
 dotenv.config();
 
 @Injectable()
-export class TokensService {
+export class TokenService {
   constructor(private readonly jwtService: JwtService) {}
 
   async accessToken(user: User) {

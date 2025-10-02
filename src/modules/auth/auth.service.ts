@@ -1,16 +1,27 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Inject,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import bcrypt from 'bcrypt';
+import { Redis } from 'ioredis';
 
 import { User } from './user.entity.js';
 import { CreateUserDto } from './dto/create-user.dto.js';
+import { LoginUserDto } from './dto/login-user.dto.js';
+import { TokenService } from '../tokens/token.service.js';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @Inject('REDIS_CLIENT')
+    private readonly redis: Redis,
+    private readonly tokenService: TokenService,
   ) {}
 
   async signup(createUserDto: CreateUserDto): Promise<void> {
@@ -35,5 +46,33 @@ export class AuthService {
     });
 
     await this.userRepository.save(user);
+  }
+
+  async signin(
+    loginUserDto: LoginUserDto,
+  ): Promise<{ accessToken: string; refreshToken: string }> {
+    const { identifier, password } = loginUserDto;
+
+    const user = await this.userRepository
+      .createQueryBuilder('user')
+      .addSelect('user.password')
+      .where('username =:identifier OR email =:identifier', { identifier })
+      .getOne();
+
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      throw new UnauthorizedException();
+    }
+
+    const accessToken = await this.tokenService.accessToken(user);
+    const refreshToken = await this.tokenService.refreshToken(user);
+
+    await this.redis.set(`refresh-token-for:${user.username}`, refreshToken);
+    console.log(await this.redis.get(`refresh-token-for:${user.username}`));
+    return { accessToken, refreshToken };
   }
 }

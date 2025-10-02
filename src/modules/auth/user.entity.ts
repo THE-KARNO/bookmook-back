@@ -1,4 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+
+import { AuthRole } from './enums/auth-role.enum.js';
 
 @Entity()
 export class User {
@@ -25,4 +33,16 @@ export class User {
 
   @Column({ nullable: true })
   postalCode: string;
+
+  @Column({ default: false })
+  isBan: boolean;
+
+  @Column({ default: AuthRole.USER })
+  role: AuthRole;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

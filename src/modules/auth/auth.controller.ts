@@ -9,11 +9,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
+import { User } from './user.entity.js';
 import { AuthService } from './auth.service.js';
 import { CreateUserDto } from './dto/create-user.dto.js';
 import { LoginUserDto } from './dto/login-user.dto.js';
 import { AccessTokenGuard } from '../../common/guards/access-token.guard.js';
-import { User } from './user.entity.js';
+import { RefreshTokenGuard } from '../../common/guards/refresh-token.guard.js';
 
 @Controller('auth')
 export class AuthController {
@@ -40,5 +41,13 @@ export class AuthController {
     @Body() loginUserDto: LoginUserDto,
   ): Promise<{ accessToken: string; refreshToken: string }> {
     return this.authService.signin(loginUserDto);
+  }
+
+  @UseGuards(RefreshTokenGuard)
+  @Post('/refresh-token')
+  @HttpCode(200)
+  refreshToken(@Req() req): Promise<{ accessToken: string }> {
+    const user = req.user as User;
+    return this.authService.refreshToken(user);
   }
 }

@@ -8,7 +8,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
 
-import { User } from 'src/modules/auth/user.entity.js';
+import { User } from '../../modules/auth/user.entity.js';
 import { Repository } from 'typeorm';
 
 @Injectable()

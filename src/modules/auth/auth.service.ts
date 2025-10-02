@@ -74,4 +74,9 @@ export class AuthService {
     await this.redis.set(`refresh-token-for:${user.username}`, refreshToken);
     return { accessToken, refreshToken };
   }
+
+  async refreshToken(user: User): Promise<{ accessToken: string }> {
+    const accessToken = await this.tokenService.accessToken(user);
+    return { accessToken };
+  }
 }

@@ -77,6 +77,26 @@ export class AuthService {
 
   async refreshToken(user: User): Promise<{ accessToken: string }> {
     const accessToken = await this.tokenService.accessToken(user);
+    const isRefreshTokenNotExpired = await this.redis.get(
+      `refresh-token-for:${user.username}`,
+    );
+
+    if (!isRefreshTokenNotExpired) {
+      throw new UnauthorizedException();
+    }
+
     return { accessToken };
+  }
+
+  async logout(id: string): Promise<void> {
+    const user = await this.userRepository.findOne({ where: { id } });
+
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
+    await this.redis.del(`refresh-token-for:${user.username}`);
+
+    return;
   }
 }

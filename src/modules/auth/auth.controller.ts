@@ -50,4 +50,12 @@ export class AuthController {
     const user = req.user as User;
     return this.authService.refreshToken(user);
   }
+
+  @UseGuards(AccessTokenGuard)
+  @Post('/logout')
+  @HttpCode(204)
+  logout(@Req() req): Promise<void> {
+    const user: User = req.user;
+    return this.authService.logout(user.id);
+  }
 }

@@ -72,7 +72,6 @@ export class AuthService {
     const refreshToken = await this.tokenService.refreshToken(user);
 
     await this.redis.set(`refresh-token-for:${user.username}`, refreshToken);
-    console.log(await this.redis.get(`refresh-token-for:${user.username}`));
     return { accessToken, refreshToken };
   }
 }

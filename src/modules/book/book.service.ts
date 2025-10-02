@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -15,6 +15,15 @@ export class BookService {
   async getAll(): Promise<Book[]> {
     const books = await this.bookRepository.find();
     return books;
+  }
+
+  async getOne(id: string): Promise<Book> {
+    const book = await this.bookRepository.findOne({ where: { id } });
+
+    if (!book) {
+      throw new NotFoundException();
+    }
+    return book;
   }
 
   async create(createBookDto: CreateBookDto): Promise<void> {

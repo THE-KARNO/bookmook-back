@@ -2,9 +2,13 @@
   "name": "bookmook-back",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "ME-Atish <meatish2008@gmail.com>",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
+  "type": "module",
+  "contributors": [
+    {"name": "ME-Atish", "email": "meatish2008@gmail.com"}
+  ],
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

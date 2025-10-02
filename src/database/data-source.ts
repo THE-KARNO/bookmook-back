@@ -1,6 +1,8 @@
 import { DataSource } from 'typeorm';
 import dotenv from 'dotenv';
 
+import { Book } from 'src/modules/book/book.entity.js';
+
 dotenv.config();
 
 export const AppDataSource = new DataSource({
@@ -10,5 +12,6 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME || 'postgres',
   password: process.env.DB_PASSWORD || 'postgres',
   database: process.env.DB_NAME || 'bookmook-back',
+  entities: [Book],
   synchronize: true, // Just allowed in development
 });

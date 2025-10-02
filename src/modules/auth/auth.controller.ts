@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
   Post,
   Req,
   UnauthorizedException,
@@ -34,6 +35,7 @@ export class AuthController {
   }
 
   @Post('/signin')
+  @HttpCode(200)
   signin(
     @Body() loginUserDto: LoginUserDto,
   ): Promise<{ accessToken: string; refreshToken: string }> {

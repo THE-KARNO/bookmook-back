@@ -22,13 +22,13 @@ export class Book {
   @Column({ nullable: true })
   translator: string;
 
-  @Column({ unique: true })
+  @Column()
   publisher: string;
 
   @Column()
   price: number;
 
-  @Column()
+  @Column({ default: ScoreEnum.GREAT })
   score: ScoreEnum;
 
   @Column()

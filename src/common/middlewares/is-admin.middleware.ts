@@ -4,23 +4,18 @@ import {
   NestMiddleware,
   UnauthorizedException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Request, Response, NextFunction } from 'express';
-import { Repository } from 'typeorm';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 import { AuthRole } from '../../modules/auth/enums/auth-role.enum.js';
-import { User } from '../../modules/auth/user.entity.js';
+import { UserService } from '../../modules/user/user/user.service.js';
 
 dotenv.config();
 
 @Injectable()
 export class IsAdminMiddleware implements NestMiddleware {
-  constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
   async use(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers['authorization'];
@@ -39,15 +34,13 @@ export class IsAdminMiddleware implements NestMiddleware {
     }
     req['user'] = payload;
 
-    const user = await this.userRepository.findOne({
-      where: { id: payload.sub },
-    });
+    const user = await this.userService.getOne(payload.sub);
 
     if (!user) {
       throw new UnauthorizedException();
     }
 
-    if (user.role !== AuthRole.USER) {
+    if (user.role === AuthRole.USER) {
       throw new ForbiddenException();
     }
 

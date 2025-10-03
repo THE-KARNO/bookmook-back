@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppDataSource } from './database/data-source.js';
@@ -7,6 +7,8 @@ import { AuthModule } from './modules/auth/auth.module.js';
 import { TokensModule } from './modules/tokens/token.module.js';
 import { RedisModule } from './modules/redis/redis.module.js';
 import { UserModule } from './modules/user/user/user.module.js';
+import { IsAdminMiddleware } from './common/middlewares/is-admin.middleware.js';
+import { UserController } from './modules/user/user/user.controller.js';
 
 @Module({
   imports: [
@@ -20,4 +22,8 @@ import { UserModule } from './modules/user/user/user.module.js';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(IsAdminMiddleware).forRoutes(UserController);
+  }
+}

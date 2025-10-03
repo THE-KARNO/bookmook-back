@@ -6,6 +6,7 @@ import { BookModule } from './modules/book/book.module.js';
 import { AuthModule } from './modules/auth/auth.module.js';
 import { TokensModule } from './modules/tokens/token.module.js';
 import { RedisModule } from './modules/redis/redis.module.js';
+import { UserModule } from './modules/user/user/user.module.js';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { RedisModule } from './modules/redis/redis.module.js';
     AuthModule,
     TokensModule,
     RedisModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],

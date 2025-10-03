@@ -10,8 +10,8 @@ import { Repository } from 'typeorm';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
-import { AuthRole } from 'src/modules/auth/enums/auth-role.enum.js';
-import { User } from 'src/modules/auth/user.entity.js';
+import { AuthRole } from '../../modules/auth/enums/auth-role.enum.js';
+import { User } from '../../modules/auth/user.entity.js';
 
 dotenv.config();
 

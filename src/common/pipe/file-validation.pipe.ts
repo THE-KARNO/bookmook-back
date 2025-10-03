@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 
 @Injectable()
-export class FileValidationPipeTsPipe implements PipeTransform {
+export class FileValidationPipe implements PipeTransform {
   private readonly allowedMemeType = ['image/jpeg', 'image/png', 'image/jpg'];
   private readonly maxSize = 10 * 1024 * 1024; // 10 MB
 

@@ -37,6 +37,9 @@ export class Book {
   @Column()
   ISBN: string;
 
+  @Column()
+  image: string;
+
   @CreateDateColumn()
   createdAt: Date;
 

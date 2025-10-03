@@ -26,7 +26,10 @@ export class BookService {
     return book;
   }
 
-  async create(createBookDto: CreateBookDto): Promise<void> {
+  async create(
+    createBookDto: CreateBookDto,
+    originalname: string,
+  ): Promise<void> {
     const { name, author, translator, publisher, price, category, ISBN } =
       createBookDto;
 
@@ -38,13 +41,18 @@ export class BookService {
       price,
       category,
       ISBN,
+      image: originalname,
     });
 
     await this.bookRepository.save(createBook);
     return;
   }
 
-  async update(createBookDto: CreateBookDto, id: string): Promise<void> {
+  async update(
+    createBookDto: CreateBookDto,
+    id: string,
+    originalname: string,
+  ): Promise<void> {
     const { name, author, translator, publisher, price, category, ISBN } =
       createBookDto;
 
@@ -56,6 +64,7 @@ export class BookService {
       price,
       category,
       ISBN,
+      image: originalname,
     });
 
     if (newBookInformation.affected === 0) {

@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
   IsNotEmpty,
   IsNumber,
@@ -42,6 +43,7 @@ export class CreateBookDto {
 
   @IsNotEmpty()
   @IsNumber()
+  @Type(() => Number)
   @Min(5)
   @Max(99999999)
   price: number;

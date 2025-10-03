@@ -1,4 +1,11 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  UseGuards,
+} from '@nestjs/common';
 
 import { UserService } from './user.service.js';
 import { User } from 'src/modules/auth/user.entity.js';
@@ -14,7 +21,12 @@ export class UserController {
   }
 
   @Get('/:id')
-  getOne(@Param('id') id: string): Promise<User> {
+  getOne(@Param('id', ParseUUIDPipe) id: string): Promise<User> {
     return this.userService.getOne(id);
+  }
+
+  @Delete('/:id')
+  remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
+    return this.userService.remove(id);
   }
 }

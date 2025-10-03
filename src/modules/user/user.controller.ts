@@ -55,4 +55,9 @@ export class UserController {
   ban(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     return this.userService.ban(id);
   }
+
+  @Patch('/:id/unban')
+  unBan(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
+    return this.userService.unBan(id);
+  }
 }

@@ -94,4 +94,15 @@ export class UserService {
     await this.userRepository.update(user.id, { isBan: true });
     return;
   }
+
+  async unBan(id: string): Promise<void> {
+    const user = await this.userRepository.findOne({ where: { id } });
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    await this.userRepository.update(user.id, { isBan: false });
+    return;
+  }
 }

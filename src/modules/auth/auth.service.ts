@@ -77,11 +77,11 @@ export class AuthService {
 
   async refreshToken(user: User): Promise<{ accessToken: string }> {
     const accessToken = await this.tokenService.accessToken(user);
-    const isRefreshTokenNotExpired = await this.redis.get(
+    const isThereRefreshTokenAvailable = await this.redis.get(
       `refresh-token-for:${user.username}`,
     );
 
-    if (!isRefreshTokenNotExpired) {
+    if (!isThereRefreshTokenAvailable) {
       throw new UnauthorizedException();
     }
 

@@ -47,7 +47,12 @@ export class UserController {
   }
 
   @Patch('/role/:id')
-  changeRole(@Param('id', ParseUUIDPipe) id: string) {
+  changeRole(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     return this.userService.changeRole(id);
+  }
+
+  @Patch('/:id/ban')
+  ban(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
+    return this.userService.ban(id);
   }
 }

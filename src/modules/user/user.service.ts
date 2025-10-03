@@ -2,6 +2,7 @@ import {
   Injectable,
   NotFoundException,
   UnauthorizedException,
+  UnprocessableEntityException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -76,6 +77,21 @@ export class UserService {
       user.role === AuthRole.ADMIN ? AuthRole.USER : AuthRole.ADMIN;
 
     await this.userRepository.update(user.id, { role: newRole });
+    return;
+  }
+
+  async ban(id: string): Promise<void> {
+    const user = await this.userRepository.findOne({ where: { id } });
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    if (user.role === AuthRole.ADMIN) {
+      throw new UnprocessableEntityException();
+    }
+
+    await this.userRepository.update(user.id, { isBan: true });
     return;
   }
 }

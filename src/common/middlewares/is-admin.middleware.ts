@@ -9,7 +9,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 import { AuthRole } from '../../modules/auth/enums/auth-role.enum.js';
-import { UserService } from '../../modules/user/user/user.service.js';
+import { UserService } from '../../modules/user/user.service.js';
 
 dotenv.config();
 

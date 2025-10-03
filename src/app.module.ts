@@ -6,9 +6,9 @@ import { BookModule } from './modules/book/book.module.js';
 import { AuthModule } from './modules/auth/auth.module.js';
 import { TokensModule } from './modules/tokens/token.module.js';
 import { RedisModule } from './modules/redis/redis.module.js';
-import { UserModule } from './modules/user/user/user.module.js';
+import { UserModule } from './modules/user/user.module.js';
 import { IsAdminMiddleware } from './common/middlewares/is-admin.middleware.js';
-import { UserController } from './modules/user/user/user.controller.js';
+import { UserController } from './modules/user/user.controller.js';
 
 @Module({
   imports: [

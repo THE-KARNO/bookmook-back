@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   ParseUUIDPipe,
+  Patch,
   Put,
   Req,
   UseGuards,
@@ -43,5 +44,10 @@ export class UserController {
   ): Promise<void> {
     const user: User = req.user;
     return this.userService.update(user.id, updateUserDto);
+  }
+
+  @Patch('/role/:id')
+  changeRole(@Param('id', ParseUUIDPipe) id: string) {
+    return this.userService.changeRole(id);
   }
 }

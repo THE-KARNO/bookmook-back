@@ -9,6 +9,7 @@ import bcrypt from 'bcrypt';
 
 import { User } from '../auth/user.entity.js';
 import { UpdateUserDto } from './dto/update-user.dto.js';
+import { AuthRole } from '../auth/enums/auth-role.enum.js';
 
 @Injectable()
 export class UserService {
@@ -61,6 +62,20 @@ export class UserService {
       address,
       postalCode,
     });
+    return;
+  }
+
+  async changeRole(id: string): Promise<void> {
+    const user = await this.userRepository.findOne({ where: { id } });
+
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
+    const newRole =
+      user.role === AuthRole.ADMIN ? AuthRole.USER : AuthRole.ADMIN;
+
+    await this.userRepository.update(user.id, { role: newRole });
     return;
   }
 }

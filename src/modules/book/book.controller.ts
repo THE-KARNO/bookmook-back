@@ -17,7 +17,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { BookService } from './book.service.js';
 import { Book } from './book.entity.js';
 import { FileValidationPipe } from '../../common/pipe/file-validation.pipe.js';
-import { AccessTokenGuard } from 'src/common/guards/access-token.guard.js';
+import { AccessTokenGuard } from '../../common/guards/access-token.guard.js';
 
 @Controller('book')
 export class BookController {
